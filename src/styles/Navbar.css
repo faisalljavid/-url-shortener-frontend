@@ -35,11 +35,6 @@
     color: var(--primary-color);
 }
 
-.user-greeting {
-    color: var(--light-text);
-    margin-right: 8px;
-}
-
 .logout-btn {
     background: none;
     border: none;
