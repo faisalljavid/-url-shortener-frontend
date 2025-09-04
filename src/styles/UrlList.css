@@ -1,0 +1,78 @@
+.url-list {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.url-list table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.url-list th,
+.url-list td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.url-list th {
+    background-color: rgba(74, 107, 255, 0.05);
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.url-list tr:hover {
+    background-color: rgba(74, 107, 255, 0.02);
+}
+
+.url-list .original-url {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.url-list .short-url {
+    font-weight: 500;
+}
+
+.url-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.url-actions .delete-btn {
+    background-color: transparent;
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    border-radius: var(--border-radius);
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.url-actions .delete-btn:hover {
+    background-color: var(--error-color);
+    color: white;
+}
+
+@media (max-width: 768px) {
+
+    .url-list th:nth-child(4),
+    .url-list td:nth-child(4) {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .url-list th:nth-child(3),
+    .url-list td:nth-child(3) {
+        display: none;
+    }
+
+    .url-actions {
+        flex-direction: column;
+    }
+}

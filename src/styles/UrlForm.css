@@ -1,0 +1,31 @@
+.url-form-container {
+    width: 100%;
+}
+
+.url-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.shorten-button {
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 8px;
+}
+
+.shorten-button:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+}
+
+.shorten-button:disabled {
+    background-color: var(--lightest-text);
+    cursor: not-allowed;
+}
