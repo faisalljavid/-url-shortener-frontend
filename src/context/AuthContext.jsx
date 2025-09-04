@@ -30,7 +30,13 @@ export const AuthProvider = ({ children }) => {
 
             try {
                 const response = await axios.get(AUTH_ENDPOINTS.VERIFY);
-                setUser(response.data.user);
+                const { success, user } = response.data;
+                if (success) {
+                    setUser(user);
+                } else {
+                    setToken(null);
+                    setUser(null);
+                }
             } catch (error) {
                 console.error('Token verification failed:', error);
                 setToken(null);
@@ -50,10 +56,18 @@ export const AuthProvider = ({ children }) => {
                 password
             });
 
-            const { token: newToken, user: userData } = response.data;
-            setToken(newToken);
-            setUser(userData);
-            return { success: true };
+            const { success, token: newToken, message } = response.data;
+
+            if (success) {
+                setToken(newToken);
+                setUser({ email }); // Set basic user info since backend doesn't return user data
+                return { success: true };
+            } else {
+                return {
+                    success: false,
+                    message: message || 'Login failed'
+                };
+            }
         } catch (error) {
             return {
                 success: false,
@@ -65,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     const register = async (name, email, password) => {
         try {
             const response = await axios.post(AUTH_ENDPOINTS.SIGNUP, {
-                name,
+                fullName: name,
                 email,
                 password
             });

@@ -20,9 +20,6 @@ const Navbar = () => {
                             <Link to="/dashboard">Dashboard</Link>
                         </li>
                         <li>
-                            <span className="user-greeting">Hello, {user?.name}</span>
-                        </li>
-                        <li>
                             <button className="logout-btn" onClick={logout}>Logout</button>
                         </li>
                     </>

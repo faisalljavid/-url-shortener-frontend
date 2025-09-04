@@ -16,8 +16,13 @@ const Dashboard = () => {
         const fetchUrls = async () => {
             try {
                 const response = await axios.get(URL_ENDPOINTS.GET_ALL);
-                setUrls(response.data);
-                setError('');
+                const { success, data } = response.data;
+                if (success) {
+                    setUrls(data);
+                    setError('');
+                } else {
+                    setError('Failed to fetch your URLs');
+                }
             } catch (err) {
                 setError('Failed to fetch your URLs');
                 console.error(err);
@@ -34,15 +39,6 @@ const Dashboard = () => {
         setRecentlyShortened(newUrl);
     };
 
-    const handleDeleteUrl = async (id) => {
-        try {
-            await axios.delete(URL_ENDPOINTS.DELETE(id));
-            setUrls(urls.filter(url => url._id !== id));
-        } catch (err) {
-            setError('Failed to delete URL');
-            console.error(err);
-        }
-    };
 
     return (
         <div className="dashboard">
@@ -59,17 +55,17 @@ const Dashboard = () => {
                             <p className="original-url">{recentlyShortened.originalUrl}</p>
                             <div className="shortened-url-container">
                                 <a
-                                    href={getShortenedUrl(recentlyShortened.shortCode)}
+                                    href={getShortenedUrl(recentlyShortened.keyId)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="shortened-url"
                                 >
-                                    {getShortenedUrl(recentlyShortened.shortCode)}
+                                    {getShortenedUrl(recentlyShortened.keyId)}
                                 </a>
                                 <button
                                     className="copy-btn"
                                     onClick={() => {
-                                        navigator.clipboard.writeText(getShortenedUrl(recentlyShortened.shortCode));
+                                        navigator.clipboard.writeText(getShortenedUrl(recentlyShortened.keyId));
                                         alert('Copied to clipboard!');
                                     }}
                                 >
@@ -88,7 +84,7 @@ const Dashboard = () => {
                 ) : error ? (
                     <div className="error">{error}</div>
                 ) : (
-                    <UrlList urls={urls} onDelete={handleDeleteUrl} />
+                    <UrlList urls={urls} />
                 )}
             </section>
         </div>

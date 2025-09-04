@@ -8,7 +8,7 @@ const Home = () => {
     return (
         <div className="home">
             <div className="hero">
-                <h1>URL Shortener</h1>
+                <h1>SHORTEE THE URL SHORTENER</h1>
                 <p>Shorten your URLs in seconds and track clicks with our powerful tools.</p>
 
                 {isAuthenticated ? (

@@ -22,13 +22,26 @@ const UrlForm = ({ onUrlCreated }) => {
 
         try {
             const response = await axios.post(URL_ENDPOINTS.CREATE, {
-                originalUrl,
+                originalURL: originalUrl,
                 customAlias: customAlias || undefined
             });
 
-            onUrlCreated(response.data);
-            setOriginalUrl('');
-            setCustomAlias('');
+            const { success, message, redirectURL } = response.data;
+            if (success) {
+                // Create a URL object that matches what the backend returns
+                const newUrl = {
+                    _id: Date.now(), // Temporary ID
+                    originalUrl: originalUrl,
+                    keyId: redirectURL.split('/').pop(), // Extract keyId from redirectURL
+                    createdAt: new Date().getTime(), // Use timestamp like backend
+                    clickedCount: 0
+                };
+                onUrlCreated(newUrl);
+                setOriginalUrl('');
+                setCustomAlias('');
+            } else {
+                setError(message || 'Failed to shorten URL');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to shorten URL');
         } finally {

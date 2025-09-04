@@ -1,10 +1,10 @@
 // Central configuration file for API URLs
 
 // Base API URL from environment variables
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
 
 // Base URL for shortened links
-export const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:5000';
+export const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
 
 // Auth endpoints
 export const AUTH_ENDPOINTS = {
@@ -15,9 +15,8 @@ export const AUTH_ENDPOINTS = {
 
 // URL shortener endpoints
 export const URL_ENDPOINTS = {
-    CREATE: `${API_URL}/urls`,
-    GET_ALL: `${API_URL}/urls`,
-    DELETE: (id) => `${API_URL}/urls/${id}`,
+    CREATE: `${API_URL}/short-url/new`,
+    GET_ALL: `${API_URL}/user/urls`,
 };
 
 // Generate full shortened URL

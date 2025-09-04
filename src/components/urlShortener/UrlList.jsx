@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { getShortenedUrl, URL_ENDPOINTS } from '../../utils/config';
+import { getShortenedUrl } from '../../utils/config';
 import '../../styles/UrlList.css';
 
-const UrlList = ({ urls, onDelete }) => {
+const UrlList = ({ urls }) => {
     const [copied, setCopied] = useState(null);
 
     const formatDate = (dateString) => {
@@ -10,10 +10,10 @@ const UrlList = ({ urls, onDelete }) => {
         return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
     };
 
-    const handleCopy = (shortCode) => {
-        const fullUrl = getShortenedUrl(shortCode);
+    const handleCopy = (keyId) => {
+        const fullUrl = getShortenedUrl(keyId);
         navigator.clipboard.writeText(fullUrl);
-        setCopied(shortCode);
+        setCopied(keyId);
 
         // Reset the "Copied" state after 2 seconds
         setTimeout(() => {
@@ -34,7 +34,6 @@ const UrlList = ({ urls, onDelete }) => {
                         <th>Short URL</th>
                         <th>Clicks</th>
                         <th>Created</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,33 +45,26 @@ const UrlList = ({ urls, onDelete }) => {
                                     : url.originalUrl}
                             </td>
                             <td>
-                                <a
-                                    href={getShortenedUrl(url.shortCode)}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="short-url"
-                                >
-                                    {url.shortCode}
-                                </a>
-                            </td>
-                            <td>{url.clicks}</td>
-                            <td>{formatDate(url.createdAt)}</td>
-                            <td>
-                                <div className="url-actions">
+                                <div className="short-url-container">
+                                    <a
+                                        href={getShortenedUrl(url.keyId)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="short-url"
+                                    >
+                                        {url.keyId}
+                                    </a>
                                     <button
                                         className="copy-btn"
-                                        onClick={() => handleCopy(url.shortCode)}
+                                        onClick={() => handleCopy(url.keyId)}
+                                        title="Copy URL"
                                     >
-                                        {copied === url.shortCode ? 'Copied!' : 'Copy'}
-                                    </button>
-                                    <button
-                                        className="delete-btn"
-                                        onClick={() => onDelete(url._id)}
-                                    >
-                                        Delete
+                                        {copied === url.keyId ? 'Copied!' : 'Copy'}
                                     </button>
                                 </div>
                             </td>
+                            <td>{url.clickedCount}</td>
+                            <td>{formatDate(url.createdAt)}</td>
                         </tr>
                     ))}
                 </tbody>
